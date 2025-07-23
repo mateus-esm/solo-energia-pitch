@@ -68,8 +68,9 @@ export default {
 				}
 			},
 			fontFamily: {
-				'sans': ['Inter', 'system-ui', 'sans-serif'],
-				'display': ['Playfair Display', 'serif'],
+				'sans': ['Neue Montreal', 'Inter', 'system-ui', 'sans-serif'],
+				'display': ['Neue Montreal', 'Playfair Display', 'serif'],
+				'brand': ['Neue Montreal', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

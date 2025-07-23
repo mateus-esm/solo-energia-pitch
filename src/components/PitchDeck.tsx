@@ -1,378 +1,367 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
 import { 
+  Play, 
+  Pause, 
   ChevronLeft, 
   ChevronRight, 
-  Zap, 
-  Target, 
+  Sun, 
+  Battery, 
+  Smartphone, 
   TrendingUp, 
   Users, 
-  Smartphone, 
-  Brain, 
   DollarSign, 
+  Target, 
+  BarChart3, 
+  Zap, 
+  Home, 
+  Car, 
+  Building, 
   Lightbulb, 
-  CheckCircle, 
+  Shield, 
+  Award,
   ArrowRight,
-  Sun,
-  Home,
-  BarChart3,
-  Sparkles,
-  Shield,
-  Repeat,
-  Award
-} from "lucide-react";
-import solarHouseImg from "@/assets/solar-house.jpg";
-import appMockupImg from "@/assets/app-mockup.jpg";
+  MapPin,
+  Globe,
+  Calculator,
+  PieChart,
+  Trophy,
+  Rocket,
+  CheckCircle,
+  Star,
+  Brain
+} from 'lucide-react';
 
-const slides = [
+// Import das imagens
+import solarHouseImage from '@/assets/solar-house.jpg';
+import appMockupImage from '@/assets/app-mockup.jpg';
+import modernSolarHouse from '@/assets/modern-solar-house.jpg';
+import electricCarCharging from '@/assets/electric-car-charging.jpg';
+import solarFarm from '@/assets/solar-farm.jpg';
+import batteryStorage from '@/assets/battery-storage.jpg';
+
+interface Slide {
+  id: number;
+  type: string;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  items?: string[];
+  features?: { icon: React.ReactNode; title: string; description: string }[];
+  stats?: { value: string; label: string; icon: React.ReactNode }[];
+  streams?: { title: string; description: string; revenue: string }[];
+  segments?: { name: string; size: string; growth: string }[];
+  metrics?: { metric: string; value: string; period: string }[];
+  advantages?: string[];
+  projections?: { year: string; revenue: string; users: string; market: string }[];
+  competitors?: { name: string; global: boolean; revenue: string; users: string; advantage: string }[];
+  use?: string[];
+  highlights?: string[];
+  cta?: string;
+  image?: string;
+  backgroundImage?: string;
+}
+
+const slides: Slide[] = [
   {
     id: 1,
-    type: "cover",
-    title: "SOLO ENERGIA",
-    subtitle: "Você no controle da sua energia",
-    description: "Energytech que transforma energia solar em uma experiência digital através de uma solução completa em geração, monitoramento inteligente e atendimento automatizado"
+    type: 'cover',
+    title: 'Solo Energia',
+    subtitle: 'Você no controle da sua energia',
+    description: 'Transformando energia solar em uma experiência digital inteligente através de IA e IoT',
+    backgroundImage: modernSolarHouse
   },
   {
     id: 2,
-    type: "problem",
-    title: "O PROBLEMA",
-    subtitle: "O mercado de energia solar ainda é complexo e fragmentado",
+    type: 'problem',
+    title: 'O Problema',
+    subtitle: 'Complexidade e falta de transparência no setor solar',
     items: [
-      {
-        icon: DollarSign,
-        title: "Alto custo energético",
-        description: "85% dos brasileiros pagam até R$800 mensais de energia elétrica"
-      },
-      {
-        icon: Target,
-        title: "Processo complexo",
-        description: "Instalação solar é burocrática e demorada"
-      },
-      {
-        icon: BarChart3,
-        title: "Falta de transparência",
-        description: "Ausência de monitoramento e controle em tempo real"
-      },
-      {
-        icon: Shield,
-        title: "Suporte deficiente",
-        description: "Pouco acompanhamento técnico pós-instalação"
-      }
+      'Processo de instalação solar complexo e opaco',
+      'Falta de controle e visibilidade sobre o sistema',
+      'Dificuldade em otimizar o consumo energético',
+      'Ausência de insights inteligentes sobre economia',
+      'Experiência fragmentada entre instalação e uso'
     ]
   },
   {
     id: 3,
-    type: "solution",
-    title: "A SOLUÇÃO",
-    subtitle: "Controle total sobre a própria energia",
+    type: 'solution',
+    title: 'Nossa Solução',
+    subtitle: 'Plataforma inteligente end-to-end para energia solar',
     features: [
       {
-        icon: Smartphone,
-        title: "Sistema sob medida + App exclusivo",
-        description: "Acompanhe tudo: geração, economia e consumo direto no celular"
+        icon: <Smartphone className="w-8 h-8" />,
+        title: 'App Inteligente',
+        description: 'Dashboard completo com IA para otimização energética'
       },
       {
-        icon: Brain,
-        title: "Jornada digital com IA",
-        description: "Processo simples com automações e agentes inteligentes"
+        icon: <Brain className="w-8 h-8" />,
+        title: 'Agente Solon',
+        description: 'IA conversacional para suporte 24/7 e insights'
       },
       {
-        icon: Zap,
-        title: "Monitoramento inteligente",
-        description: "Suporte automático e manutenção preventiva"
-      },
-      {
-        icon: Award,
-        title: "Clube Solo",
-        description: "Cashback, vantagens e benefícios contínuos"
+        icon: <Shield className="w-8 h-8" />,
+        title: 'Instalação Premium',
+        description: 'Processo simplificado com garantia estendida'
       }
-    ]
+    ],
+    image: appMockupImage
   },
   {
     id: 4,
-    type: "market",
-    title: "MERCADO & OPORTUNIDADE",
-    subtitle: "Um setor em crescimento exponencial",
+    type: 'market',
+    title: 'Oportunidade de Mercado',
+    subtitle: 'Crescimento exponencial da energia solar',
     stats: [
-      { 
-        icon: DollarSign,
-        value: "R$ 25 Bi", 
-        label: "Mercado de energia solar no Brasil",
-        growth: "+300% ao ano"
+      {
+        value: 'R$ 50bi',
+        label: 'Mercado Solar Brasil 2024',
+        icon: <Globe className="w-6 h-6" />
       },
-      { 
-        icon: TrendingUp,
-        value: "2M+", 
-        label: "Residências com potencial para solar",
-        growth: "Mercado inexplorado"
+      {
+        value: '+180%',
+        label: 'Crescimento Nordeste 2023',
+        icon: <TrendingUp className="w-6 h-6" />
       },
-      { 
-        icon: Home,
-        value: "R$ 800+", 
-        label: "Gasto médio mensal do nosso público-alvo",
-        growth: "Alto potencial de economia"
+      {
+        value: 'R$ 8,2bi',
+        label: 'Potencial Ceará até 2030',
+        icon: <MapPin className="w-6 h-6" />
       },
-      { 
-        icon: Sun,
-        value: "85%", 
-        label: "dos brasileiros querem energia limpa",
-        growth: "Demanda crescente"
+      {
+        value: '2,5M',
+        label: 'Residências potenciais',
+        icon: <Home className="w-6 h-6" />
       }
-    ]
+    ],
+    image: solarFarm
   },
   {
     id: 5,
-    type: "product",
-    title: "PRODUTO & TECNOLOGIA",
-    subtitle: "Inovação que transforma a experiência solar",
+    type: 'product',
+    title: 'Produto e Tecnologia',
+    subtitle: 'Ecossistema integrado Solo',
     features: [
       {
-        icon: Smartphone,
-        title: "App Solo",
-        description: "Monitoramento em tempo real, controle total e clube de benefícios integrado",
-        highlight: "Interface intuitiva"
+        icon: <Sun className="w-8 h-8" />,
+        title: 'Monitoramento Real-time',
+        description: 'Acompanhamento detalhado da geração e consumo'
       },
       {
-        icon: Brain,
-        title: "Agente Solon (IA)",
-        description: "Atendimento automatizado, propostas inteligentes e follow-up personalizado",
-        highlight: "IA proprietária"
+        icon: <Calculator className="w-8 h-8" />,
+        title: 'Análise Inteligente',
+        description: 'IA que analisa padrões e sugere otimizações'
       },
       {
-        icon: Zap,
-        title: "Sistema Completo",
-        description: "Projeto, instalação, homologação e manutenção em uma única jornada",
-        highlight: "End-to-end"
+        icon: <Battery className="w-8 h-8" />,
+        title: 'Gestão de Energia',
+        description: 'Controle inteligente de armazenamento e uso'
+      },
+      {
+        icon: <Car className="w-8 h-8" />,
+        title: 'Carregamento Veicular',
+        description: 'Integração com carros elétricos'
       }
-    ]
+    ],
+    backgroundImage: '/lovable-uploads/f2ff5319-5935-4fde-988f-900dc0e1fec6.png'
   },
   {
     id: 6,
-    type: "business-model",
-    title: "MODELO DE NEGÓCIO",
-    subtitle: "Múltiplas fontes de receita para sustentabilidade",
+    type: 'business_model',
+    title: 'Modelo de Negócios',
+    subtitle: 'Múltiplas fontes de receita escaláveis',
     streams: [
-      { 
-        name: "Projetos Solares", 
-        value: "60%", 
-        description: "Venda e instalação completa de sistemas fotovoltaicos",
-        color: "bg-gradient-to-r from-solo-orange to-solo-yellow"
+      {
+        title: 'Instalação Premium',
+        description: 'Margem superior em instalações com tecnologia',
+        revenue: '15-25%'
       },
-      { 
-        name: "SaaS + Clube Solo", 
-        value: "20%", 
-        description: "Monitoramento premium, benefícios e cashback",
-        color: "bg-gradient-to-r from-solo-yellow to-solo-orange"
+      {
+        title: 'Software as a Service',
+        description: 'Assinatura mensal para app e IA',
+        revenue: 'R$ 29/mês'
       },
-      { 
-        name: "O&M", 
-        value: "10%", 
-        description: "Operação e manutenção preventiva/corretiva",
-        color: "bg-gradient-to-r from-orange-400 to-yellow-400"
+      {
+        title: 'Marketplace Energético',
+        description: 'Comissão em produtos e serviços',
+        revenue: '5-10%'
       },
-      { 
-        name: "PPA + Produtos", 
-        value: "10%", 
-        description: "Energia por assinatura e venda de equipamentos",
-        color: "bg-gradient-to-r from-yellow-400 to-orange-400"
+      {
+        title: 'Dados e Analytics',
+        description: 'Insights para empresas do setor',
+        revenue: 'B2B API'
       }
     ]
   },
   {
     id: 7,
-    type: "target",
-    title: "CLIENTES-ALVO",
-    subtitle: "Segmentos estratégicos com alto potencial de conversão",
+    type: 'target',
+    title: 'Mercado-Alvo',
+    subtitle: 'Segmentos prioritários no Nordeste',
     segments: [
-      { 
-        icon: Home,
-        name: "Residências Premium", 
-        criteria: "Conta > R$800/mês", 
-        potential: "Alto retorno financeiro e conversão digital",
-        size: "2M+ residências"
+      {
+        name: 'Residencial Classe A/B+',
+        size: '450k famílias',
+        growth: '+25% a.a.'
       },
-      { 
-        icon: BarChart3,
-        name: "Pequenos Negócios", 
-        criteria: "Conta > R$1.500/mês", 
-        potential: "Redução significativa de custos operacionais",
-        size: "500K+ empresas"
+      {
+        name: 'Pequenos Comércios',
+        size: '120k estabelecimentos',
+        growth: '+35% a.a.'
       },
-      { 
-        icon: TrendingUp,
-        name: "Investidores", 
-        criteria: "Capital disponível", 
-        potential: "Retorno mensal estável e previsível",
-        size: "50K+ investidores"
-      },
-      { 
-        icon: Users,
-        name: "Condomínios", 
-        criteria: "Áreas livres para instalação", 
-        potential: "Economia coletiva e sustentabilidade",
-        size: "200K+ condomínios"
+      {
+        name: 'Indústrias Médias',
+        size: '8k empresas',
+        growth: '+40% a.a.'
       }
-    ]
+    ],
+    image: modernSolarHouse
   },
   {
     id: 8,
-    type: "traction",
-    title: "TRAÇÃO & VALIDAÇÃO",
-    subtitle: "Resultados que comprovam o potencial do negócio",
+    type: 'traction',
+    title: 'Tração e Validação',
+    subtitle: 'Resultados iniciais promissores',
     metrics: [
-      { 
-        icon: DollarSign,
-        label: "Pipeline de Projetos", 
-        value: "R$ 2,5M",
-        description: "Vendas em andamento"
+      {
+        metric: 'MVP lançado',
+        value: 'Dezembro 2024',
+        period: 'Q4 2024'
       },
-      { 
-        icon: TrendingUp,
-        label: "Conversão de Leads", 
-        value: "35%",
-        description: "Acima da média do setor"
+      {
+        metric: 'Beta users',
+        value: '150 usuários',
+        period: 'Jan 2025'
       },
-      { 
-        icon: Target,
-        label: "Ticket Médio", 
-        value: "R$ 45.000",
-        description: "Por projeto residencial"
+      {
+        metric: 'NPS Score',
+        value: '72 pontos',
+        period: 'Jan 2025'
       },
-      { 
-        icon: BarChart3,
-        label: "Margem Bruta", 
-        value: "30%",
-        description: "Rentabilidade saudável"
+      {
+        metric: 'Tempo médio uso',
+        value: '8,5 min/dia',
+        period: 'Média semanal'
       }
     ]
   },
   {
     id: 9,
-    type: "competition",
-    title: "VANTAGEM COMPETITIVA",
-    subtitle: "Diferenciais únicos que nos posicionam à frente",
-    advantages: [
+    type: 'competition',
+    title: 'Análise Competitiva',
+    subtitle: 'Posicionamento estratégico no mercado',
+    competitors: [
       {
-        icon: Sparkles,
-        title: "Experiência 100% Digital",
-        description: "Única energytech com jornada completamente digitalizada end-to-end"
+        name: 'SunRun',
+        global: true,
+        revenue: 'US$ 2.3bi',
+        users: '900k',
+        advantage: 'Foco apenas em instalação'
       },
       {
-        icon: Brain,
-        title: "IA Proprietária",
-        description: "Agente Solon para automação de vendas e relacionamento personalizado"
+        name: 'Sunne',
+        global: false,
+        revenue: 'R$ 120M',
+        users: '45k',
+        advantage: 'Modelo de assinatura limitado'
       },
       {
-        icon: Repeat,
-        title: "Economia de Rede",
-        description: "Clube Solo cria recorrência e aumenta o lifetime value dos clientes"
+        name: 'Órigo Energia',
+        global: false,
+        revenue: 'R$ 80M',
+        users: '25k',
+        advantage: 'Sem tecnologia digital'
       },
       {
-        icon: Award,
-        title: "Parcerias Estratégicas",
-        description: "Ecossistema robusto com Unifor HUB, Ramp Up Business e parceiros certificados"
+        name: 'Solo Energia',
+        global: false,
+        revenue: 'R$ 0',
+        users: '150',
+        advantage: 'IA + App + Experiência completa'
       }
     ]
   },
   {
     id: 10,
-    type: "financials",
-    title: "PROJEÇÕES FINANCEIRAS",
-    subtitle: "Crescimento sustentável e escalável",
+    type: 'financials',
+    title: 'Projeções Financeiras',
+    subtitle: 'Crescimento sustentável e escalável',
     projections: [
-      { 
-        year: "2024", 
-        revenue: "R$ 500K", 
-        margin: "25%",
-        projects: "12 projetos"
+      {
+        year: '2025',
+        revenue: 'R$ 2,5M',
+        users: '800',
+        market: '0,1%'
       },
-      { 
-        year: "2025", 
-        revenue: "R$ 2,5M", 
-        margin: "30%",
-        projects: "55 projetos"
+      {
+        year: '2026',
+        revenue: 'R$ 12M',
+        users: '3.200',
+        market: '0,5%'
       },
-      { 
-        year: "2026", 
-        revenue: "R$ 8M", 
-        margin: "35%",
-        projects: "180 projetos"
+      {
+        year: '2027',
+        revenue: 'R$ 35M',
+        users: '8.500',
+        market: '1,2%'
       },
-      { 
-        year: "2027", 
-        revenue: "R$ 20M", 
-        margin: "40%",
-        projects: "440 projetos"
+      {
+        year: '2028',
+        revenue: 'R$ 85M',
+        users: '18k',
+        market: '2,8%'
       }
     ]
   },
   {
     id: 11,
-    type: "funding",
-    title: "INVESTIMENTO",
-    subtitle: "Aceleração do crescimento com capital estratégico",
-    ask: "R$ 1,5M",
-    timeline: "18-24 meses",
+    type: 'funding',
+    title: 'Investimento',
+    subtitle: 'R$ 500K para acelerar crescimento',
     use: [
-      { 
-        item: "Marketing e Aquisição", 
-        percentage: "40%", 
-        amount: "R$ 600K",
-        icon: Target,
-        description: "Escalabilidade das campanhas digitais"
-      },
-      { 
-        item: "Desenvolvimento Tecnológico", 
-        percentage: "30%", 
-        amount: "R$ 450K",
-        icon: Brain,
-        description: "Evolução do App Solo e IA Solon"
-      },
-      { 
-        item: "Operações e Equipe", 
-        percentage: "20%", 
-        amount: "R$ 300K",
-        icon: Users,
-        description: "Expansão do time técnico e comercial"
-      },
-      { 
-        item: "Capital de Giro", 
-        percentage: "10%", 
-        amount: "R$ 150K",
-        icon: DollarSign,
-        description: "Estoque e fluxo operacional"
-      }
+      'Desenvolvimento tecnológico (40%)',
+      'Expansão da equipe comercial (25%)',
+      'Marketing e aquisição (20%)',
+      'Melhoria operacional (15%)'
+    ],
+    highlights: [
+      '18 meses de runway',
+      'Break-even previsto para Q3 2026',
+      'ROI esperado de 8x em 3 anos',
+      'Expansão para 3 estados nordestinos'
     ]
   },
   {
     id: 12,
-    type: "closing",
-    title: "JUNTOS, VAMOS TRANSFORMAR",
-    subtitle: "O futuro da energia no Brasil",
-    cta: "Vamos conversar sobre essa oportunidade?",
+    type: 'closing',
+    title: 'Juntos pelo Futuro da Energia',
+    subtitle: 'Transformando o Nordeste em referência solar',
+    cta: 'Vamos revolucionar a energia solar juntos?',
     highlights: [
-      "Mercado de R$ 25 bilhões em crescimento",
-      "Tecnologia diferenciada e proprietária",
-      "Tração comprovada e time experiente",
-      "Modelo de negócio escalável"
-    ]
+      'Mercado de R$ 50bi em crescimento',
+      'Tecnologia diferenciada com IA',
+      'Equipe experiente e apaixonada',
+      'Modelo de negócio validado'
+    ],
+    backgroundImage: electricCarCharging
   }
 ];
 
-export default function PitchDeck() {
+const PitchDeck = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoplay, setIsAutoplay] = useState(false);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
     if (isAutoplay) {
-      interval = setInterval(() => {
+      const interval = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % slides.length);
       }, 8000);
+      return () => clearInterval(interval);
     }
-    return () => clearInterval(interval);
   }, [isAutoplay]);
 
   const nextSlide = () => {
@@ -391,484 +380,526 @@ export default function PitchDeck() {
 
   const renderSlide = () => {
     switch (slide.type) {
-      case "cover":
+      case 'cover':
         return (
-          <div className="h-full flex flex-col justify-center items-center text-center relative overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute inset-0 bg-gradient-to-br from-solo-orange/5 via-solo-yellow/5 to-background"></div>
-            <div className="absolute top-10 right-10 w-32 h-32 rounded-full bg-gradient-to-br from-solo-orange/20 to-solo-yellow/20 blur-3xl"></div>
-            <div className="absolute bottom-10 left-10 w-48 h-48 rounded-full bg-gradient-to-br from-solo-yellow/20 to-solo-orange/20 blur-3xl"></div>
+          <div className="relative h-full flex items-center justify-center overflow-hidden">
+            {slide.backgroundImage && (
+              <div 
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${slide.backgroundImage})` }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-transparent" />
+              </div>
+            )}
             
-            <div className="relative z-10 max-w-6xl mx-auto px-8 animate-fade-in">
-              {/* Logo Section */}
-              <div className="mb-12">
+            <div className="relative z-10 text-center space-y-8 max-w-4xl px-8">
+              <div className="mb-8">
                 <img 
-                  src="/lovable-uploads/ab08f680-2b12-4026-ab88-82b80df78f57.png" 
-                  alt="Solo Energia" 
-                  className="h-32 mx-auto mb-8 animate-glow"
+                  src="/lovable-uploads/3fa67575-a555-4806-b181-b84cd45b0055.png" 
+                  alt="Solo Energia Logo" 
+                  className="h-32 mx-auto mb-6"
                 />
               </div>
               
-              {/* Title */}
-              <h1 className="font-display text-8xl font-bold mb-8 bg-gradient-to-r from-solo-orange to-solo-yellow bg-clip-text text-transparent">
+              <h1 className="font-brand text-6xl md:text-8xl font-bold text-white mb-4">
                 {slide.title}
               </h1>
               
-              {/* Subtitle */}
-              <p className="text-4xl font-medium text-foreground/80 mb-12 font-display">{slide.subtitle}</p>
+              <p className="font-brand text-xl md:text-2xl text-white/90 mb-8">
+                {slide.subtitle}
+              </p>
               
-              {/* Description */}
-              <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">{slide.description}</p>
-            </div>
-          </div>
-        );
-
-      case "problem":
-        return (
-          <div className="h-full flex flex-col justify-center px-8 py-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16 animate-fade-in">
-                <h1 className="font-display text-7xl font-bold mb-6">{slide.title}</h1>
-                <p className="text-2xl text-muted-foreground">{slide.subtitle}</p>
-              </div>
+              <p className="font-brand text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+                {slide.description}
+              </p>
               
-              <div className="grid grid-cols-2 gap-8">
-                {slide.items?.map((item, index) => (
-                  <Card 
-                    key={index} 
-                    className="p-8 border border-red-200/50 bg-gradient-to-br from-red-50/50 to-background hover:shadow-lg transition-all duration-300"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <div className="flex items-start gap-6">
-                      <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
-                        <item.icon className="w-8 h-8 text-red-600" />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold mb-3 text-foreground">{item.title}</h3>
-                        <p className="text-lg text-muted-foreground leading-relaxed">{item.description}</p>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
+              <div className="flex justify-center pt-8">
+                <Button 
+                  size="xl" 
+                  className="bg-gradient-to-r from-solo-orange to-solo-yellow text-white font-brand font-semibold px-12 py-4 rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300"
+                >
+                  Começar Jornada
+                  <ArrowRight className="w-6 h-6 ml-2" />
+                </Button>
               </div>
             </div>
           </div>
         );
 
-      case "solution":
+      case 'problem':
         return (
-          <div className="h-full flex flex-col justify-center px-8 py-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16 animate-fade-in">
-                <h1 className="font-display text-7xl font-bold mb-6">{slide.title}</h1>
-                <p className="text-3xl font-semibold bg-gradient-to-r from-solo-orange to-solo-yellow bg-clip-text text-transparent">
-                  {slide.subtitle}
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-8">
-                {slide.features?.map((feature, index) => (
-                  <Card 
-                    key={index} 
-                    className="p-8 border border-solo-orange/20 bg-gradient-to-br from-solo-orange/5 to-solo-yellow/5 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <div className="flex items-start gap-6">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-solo-orange to-solo-yellow flex items-center justify-center flex-shrink-0">
-                        <feature.icon className="w-8 h-8 text-white" />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold mb-3 text-foreground">{feature.title}</h3>
-                        <p className="text-lg text-muted-foreground leading-relaxed">{feature.description}</p>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      case "market":
-        return (
-          <div className="h-full flex flex-col justify-center px-8 py-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16 animate-fade-in">
-                <h1 className="font-display text-7xl font-bold mb-6">{slide.title}</h1>
-                <p className="text-2xl text-muted-foreground">{slide.subtitle}</p>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-8">
-                {slide.stats?.map((stat, index) => (
-                  <Card 
-                    key={index} 
-                    className="p-8 text-center border-solo-orange/20 bg-gradient-to-br from-background to-solo-orange/5 hover:shadow-xl transition-all duration-300"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <div className="mb-6">
-                      <stat.icon className="w-16 h-16 mx-auto text-solo-orange mb-4" />
-                    </div>
-                    <h3 className="text-5xl font-bold mb-4 bg-gradient-to-r from-solo-orange to-solo-yellow bg-clip-text text-transparent">
-                      {stat.value}
-                    </h3>
-                    <p className="text-xl text-foreground mb-2 font-medium">{stat.label}</p>
-                    <p className="text-lg text-solo-orange font-medium">{stat.growth}</p>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      case "product":
-        return (
-          <div className="h-full flex flex-col justify-center px-8 py-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16 animate-fade-in">
-                <h1 className="font-display text-7xl font-bold mb-6">{slide.title}</h1>
-                <p className="text-2xl text-muted-foreground">{slide.subtitle}</p>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-8">
-                {slide.features?.map((feature, index) => (
-                  <Card 
-                    key={index} 
-                    className="p-8 text-center border-solo-orange/20 bg-gradient-to-b from-background to-solo-orange/5 hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <div className="mb-6">
-                      <feature.icon className="w-20 h-20 mx-auto text-solo-orange mb-4" />
-                      <span className="inline-block px-3 py-1 text-sm font-medium bg-gradient-to-r from-solo-orange to-solo-yellow text-white rounded-full">
-                        {feature.highlight}
-                      </span>
-                    </div>
-                    <h3 className="text-2xl font-bold mb-4 font-display">{feature.title}</h3>
-                    <p className="text-lg text-muted-foreground leading-relaxed">{feature.description}</p>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      case "business-model":
-        return (
-          <div className="h-full flex flex-col justify-center px-8 py-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16 animate-fade-in">
-                <h1 className="font-display text-7xl font-bold mb-6">{slide.title}</h1>
-                <p className="text-2xl text-muted-foreground">{slide.subtitle}</p>
-              </div>
-              
-              <div className="grid gap-6">
-                {slide.streams?.map((stream, index) => (
-                  <div 
-                    key={index} 
-                    className="flex items-center gap-8 p-8 rounded-xl bg-card border border-solo-orange/20 hover:shadow-lg transition-all duration-300"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <div className="flex items-center gap-6 flex-1">
-                      <div className={`text-5xl font-bold text-white px-8 py-4 rounded-xl ${stream.color} min-w-32 text-center`}>
-                        {stream.value}
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-bold mb-2 font-display">{stream.name}</h3>
-                        <p className="text-lg text-muted-foreground">{stream.description}</p>
-                      </div>
-                    </div>
-                    <div className="w-48">
-                      <Progress value={parseInt(stream.value)} className="h-3" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      case "target":
-        return (
-          <div className="h-full flex flex-col justify-center px-8 py-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16 animate-fade-in">
-                <h1 className="font-display text-7xl font-bold mb-6">{slide.title}</h1>
-                <p className="text-2xl text-muted-foreground">{slide.subtitle}</p>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-8">
-                {slide.segments?.map((segment, index) => (
-                  <Card 
-                    key={index} 
-                    className="p-8 border-solo-orange/20 bg-gradient-to-br from-background to-solo-orange/5 hover:shadow-xl transition-all duration-300"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <div className="flex items-start gap-6">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-solo-orange to-solo-yellow flex items-center justify-center flex-shrink-0">
-                        <segment.icon className="w-8 h-8 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-2xl font-bold mb-2 text-solo-orange font-display">{segment.name}</h3>
-                        <p className="text-lg mb-2"><strong>Critério:</strong> {segment.criteria}</p>
-                        <p className="text-lg mb-3 text-muted-foreground">{segment.potential}</p>
-                        <span className="inline-block px-3 py-1 text-sm font-medium bg-solo-orange/10 text-solo-orange rounded-full">
-                          {segment.size}
-                        </span>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      case "traction":
-        return (
-          <div className="h-full flex flex-col justify-center px-8 py-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16 animate-fade-in">
-                <h1 className="font-display text-7xl font-bold mb-6">{slide.title}</h1>
-                <p className="text-2xl text-muted-foreground">{slide.subtitle}</p>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-8">
-                {slide.metrics?.map((metric, index) => (
-                  <Card 
-                    key={index} 
-                    className="p-8 text-center border-solo-orange/20 bg-gradient-to-b from-background to-solo-orange/5 hover:shadow-xl transition-all duration-300"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <metric.icon className="w-16 h-16 mx-auto text-solo-orange mb-6" />
-                    <h3 className="text-5xl font-bold mb-4 bg-gradient-to-r from-solo-orange to-solo-yellow bg-clip-text text-transparent">
-                      {metric.value}
-                    </h3>
-                    <p className="text-xl text-foreground font-medium mb-2">{metric.label}</p>
-                    <p className="text-lg text-muted-foreground">{metric.description}</p>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      case "competition":
-        return (
-          <div className="h-full flex flex-col justify-center px-8 py-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16 animate-fade-in">
-                <h1 className="font-display text-7xl font-bold mb-6">{slide.title}</h1>
-                <p className="text-2xl text-muted-foreground">{slide.subtitle}</p>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-8">
-                {slide.advantages?.map((advantage, index) => (
-                  <Card 
-                    key={index} 
-                    className="p-8 border-solo-orange/20 bg-gradient-to-br from-background to-solo-orange/5 hover:shadow-xl transition-all duration-300"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <div className="flex items-start gap-6">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-solo-orange to-solo-yellow flex items-center justify-center flex-shrink-0">
-                        <advantage.icon className="w-8 h-8 text-white" />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold mb-3 font-display">{advantage.title}</h3>
-                        <p className="text-lg text-muted-foreground leading-relaxed">{advantage.description}</p>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      case "financials":
-        return (
-          <div className="h-full flex flex-col justify-center px-8 py-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16 animate-fade-in">
-                <h1 className="font-display text-7xl font-bold mb-6">{slide.title}</h1>
-                <p className="text-2xl text-muted-foreground">{slide.subtitle}</p>
-              </div>
-              
-              <div className="grid grid-cols-4 gap-6">
-                {slide.projections?.map((projection, index) => (
-                  <Card 
-                    key={index} 
-                    className="p-6 text-center border-solo-orange/20 bg-gradient-to-b from-background to-solo-orange/5 hover:shadow-xl transition-all duration-300"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <h3 className="text-2xl font-bold mb-4 text-solo-orange font-display">{projection.year}</h3>
-                    <p className="text-4xl font-bold mb-3 bg-gradient-to-r from-solo-orange to-solo-yellow bg-clip-text text-transparent">
-                      {projection.revenue}
-                    </p>
-                    <p className="text-lg text-muted-foreground mb-2">Margem: {projection.margin}</p>
-                    <p className="text-sm text-solo-orange font-medium">{projection.projects}</p>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      case "funding":
-        return (
-          <div className="h-full flex flex-col justify-center px-8 py-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16 animate-fade-in">
-                <h1 className="font-display text-7xl font-bold mb-6">{slide.title}</h1>
-                <p className="text-2xl text-muted-foreground">{slide.subtitle}</p>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-12 items-start">
-                <div className="text-center">
-                  <h2 className="text-9xl font-bold bg-gradient-to-r from-solo-orange to-solo-yellow bg-clip-text text-transparent mb-4 font-display">
-                    {slide.ask}
-                  </h2>
-                  <p className="text-2xl text-muted-foreground">Investimento solicitado</p>
-                  <p className="text-lg text-solo-orange font-medium mt-2">{slide.timeline}</p>
-                </div>
-                
-                <div className="col-span-2">
-                  <div className="grid gap-4">
-                    {slide.use?.map((item, index) => (
-                      <div 
-                        key={index} 
-                        className="flex items-center justify-between p-6 rounded-xl bg-card border border-solo-orange/20 hover:shadow-lg transition-all duration-300"
-                        style={{ animationDelay: `${index * 0.1}s` }}
-                      >
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-solo-orange to-solo-yellow flex items-center justify-center">
-                            <item.icon className="w-6 h-6 text-white" />
-                          </div>
-                          <div>
-                            <span className="text-xl font-medium">{item.item}</span>
-                            <p className="text-sm text-muted-foreground">{item.description}</p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-3xl font-bold text-solo-orange">{item.percentage}</div>
-                          <div className="text-lg text-muted-foreground">{item.amount}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-
-      case "closing":
-        return (
-          <div className="h-full flex flex-col justify-center items-center text-center relative overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute inset-0 bg-gradient-to-br from-solo-orange/10 via-solo-yellow/10 to-background"></div>
-            <div className="absolute top-0 left-0 w-full h-full">
-              <img 
-                src={solarHouseImg} 
-                alt="Casa com energia solar" 
-                className="w-full h-full object-cover opacity-20"
-              />
+          <div className="space-y-8">
+            <div className="text-center mb-12">
+              <h2 className="font-brand text-5xl font-bold text-foreground mb-4">{slide.title}</h2>
+              <p className="font-brand text-xl text-muted-foreground">{slide.subtitle}</p>
             </div>
             
-            <div className="relative z-10 max-w-6xl mx-auto px-8 animate-fade-in">
-              <h1 className="font-display text-8xl font-bold mb-8 bg-gradient-to-r from-solo-orange to-solo-yellow bg-clip-text text-transparent">
-                {slide.title}
-              </h1>
-              <p className="text-5xl text-foreground mb-12 font-display">{slide.subtitle}</p>
+            <div className="grid gap-6 max-w-4xl mx-auto">
+              {slide.items?.map((item, index) => (
+                <Card key={index} className="group hover:shadow-lg transition-all duration-300 border-l-4 border-l-destructive">
+                  <CardContent className="p-6">
+                    <div className="flex items-start space-x-4">
+                      <div className="w-8 h-8 bg-destructive/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                        <span className="font-brand text-destructive font-bold">{index + 1}</span>
+                      </div>
+                      <p className="font-brand text-lg text-foreground leading-relaxed">{item}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 'solution':
+        return (
+          <div className="space-y-8">
+            <div className="text-center mb-12">
+              <h2 className="font-brand text-5xl font-bold text-foreground mb-4">{slide.title}</h2>
+              <p className="font-brand text-xl text-muted-foreground">{slide.subtitle}</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                {slide.features?.map((feature, index) => (
+                  <Card key={index} className="group hover:shadow-xl transition-all duration-300 hover:border-solo-orange/50">
+                    <CardContent className="p-6">
+                      <div className="flex items-start space-x-4">
+                        <div className="p-3 bg-gradient-to-br from-solo-orange to-solo-yellow rounded-xl text-white group-hover:scale-110 transition-transform duration-300">
+                          {feature.icon}
+                        </div>
+                        <div>
+                          <h3 className="font-brand text-xl font-semibold text-foreground mb-2">{feature.title}</h3>
+                          <p className="font-brand text-muted-foreground leading-relaxed">{feature.description}</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
               
-              <div className="grid grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto">
+              {slide.image && (
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-solo-orange/20 to-solo-yellow/20 rounded-3xl blur-xl transform scale-105" />
+                  <img 
+                    src={slide.image} 
+                    alt="Solo App" 
+                    className="relative w-full rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        );
+
+      case 'market':
+        return (
+          <div className="space-y-8">
+            <div className="text-center mb-12">
+              <h2 className="font-brand text-5xl font-bold text-foreground mb-4">{slide.title}</h2>
+              <p className="font-brand text-xl text-muted-foreground">{slide.subtitle}</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="grid grid-cols-2 gap-6">
+                {slide.stats?.map((stat, index) => (
+                  <Card key={index} className="group hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-card to-card/50">
+                    <CardContent className="p-6 text-center">
+                      <div className="flex justify-center mb-4">
+                        <div className="p-3 bg-gradient-to-br from-solo-orange to-solo-yellow rounded-full text-white">
+                          {stat.icon}
+                        </div>
+                      </div>
+                      <div className="font-brand text-3xl font-bold text-foreground mb-2">{stat.value}</div>
+                      <p className="font-brand text-sm text-muted-foreground">{stat.label}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              
+              {slide.image && (
+                <div className="relative">
+                  <img 
+                    src={slide.image} 
+                    alt="Solar Market" 
+                    className="w-full rounded-3xl shadow-2xl"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-3xl" />
+                </div>
+              )}
+            </div>
+          </div>
+        );
+
+      case 'product':
+        return (
+          <div className="relative space-y-8">
+            {slide.backgroundImage && (
+              <div 
+                className="absolute inset-0 bg-cover bg-center opacity-10 rounded-3xl"
+                style={{ backgroundImage: `url(${slide.backgroundImage})` }}
+              />
+            )}
+            
+            <div className="relative z-10">
+              <div className="text-center mb-12">
+                <h2 className="font-brand text-5xl font-bold text-foreground mb-4">{slide.title}</h2>
+                <p className="font-brand text-xl text-muted-foreground">{slide.subtitle}</p>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                {slide.features?.map((feature, index) => (
+                  <Card key={index} className="group hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-card to-card/80 backdrop-blur-sm">
+                    <CardContent className="p-8">
+                      <div className="flex items-start space-x-6">
+                        <div className="p-4 bg-gradient-to-br from-solo-orange to-solo-yellow rounded-2xl text-white group-hover:scale-110 transition-transform duration-300">
+                          {feature.icon}
+                        </div>
+                        <div>
+                          <h3 className="font-brand text-xl font-semibold text-foreground mb-3">{feature.title}</h3>
+                          <p className="font-brand text-muted-foreground leading-relaxed">{feature.description}</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'business_model':
+        return (
+          <div className="space-y-8">
+            <div className="text-center mb-12">
+              <h2 className="font-brand text-5xl font-bold text-foreground mb-4">{slide.title}</h2>
+              <p className="font-brand text-xl text-muted-foreground">{slide.subtitle}</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+              {slide.streams?.map((stream, index) => (
+                <Card key={index} className="group hover:shadow-xl transition-all duration-300 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-solo-orange to-solo-yellow opacity-10 rounded-bl-full" />
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <CardTitle className="font-brand text-xl font-semibold text-foreground">{stream.title}</CardTitle>
+                      <Badge className="bg-gradient-to-r from-solo-orange to-solo-yellow text-white font-brand">
+                        {stream.revenue}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="font-brand text-muted-foreground leading-relaxed">{stream.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 'target':
+        return (
+          <div className="space-y-8">
+            <div className="text-center mb-12">
+              <h2 className="font-brand text-5xl font-bold text-foreground mb-4">{slide.title}</h2>
+              <p className="font-brand text-xl text-muted-foreground">{slide.subtitle}</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                {slide.segments?.map((segment, index) => (
+                  <Card key={index} className="group hover:shadow-xl transition-all duration-300">
+                    <CardContent className="p-6">
+                      <div className="flex justify-between items-center mb-4">
+                        <h3 className="font-brand text-lg font-semibold text-foreground">{segment.name}</h3>
+                        <Badge className="bg-gradient-to-r from-solo-orange to-solo-yellow text-white font-brand">
+                          {segment.growth}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <Users className="w-5 h-5 text-solo-orange" />
+                        <span className="font-brand text-muted-foreground">{segment.size}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              
+              {slide.image && (
+                <div className="relative">
+                  <img 
+                    src={slide.image} 
+                    alt="Target Market" 
+                    className="w-full rounded-3xl shadow-2xl"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        );
+
+      case 'traction':
+        return (
+          <div className="space-y-8">
+            <div className="text-center mb-12">
+              <h2 className="font-brand text-5xl font-bold text-foreground mb-4">{slide.title}</h2>
+              <p className="font-brand text-xl text-muted-foreground">{slide.subtitle}</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              {slide.metrics?.map((metric, index) => (
+                <Card key={index} className="group hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-card to-card/50">
+                  <CardContent className="p-8 text-center">
+                    <div className="flex justify-center mb-4">
+                      <Trophy className="w-8 h-8 text-solo-orange" />
+                    </div>
+                    <div className="font-brand text-3xl font-bold text-foreground mb-2">{metric.value}</div>
+                    <h3 className="font-brand text-lg font-semibold text-foreground mb-2">{metric.metric}</h3>
+                    <p className="font-brand text-sm text-muted-foreground">{metric.period}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 'competition':
+        return (
+          <div className="space-y-8">
+            <div className="text-center mb-12">
+              <h2 className="font-brand text-5xl font-bold text-foreground mb-4">{slide.title}</h2>
+              <p className="font-brand text-xl text-muted-foreground">{slide.subtitle}</p>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full max-w-6xl mx-auto">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="font-brand text-left p-4 font-semibold text-foreground">Empresa</th>
+                    <th className="font-brand text-left p-4 font-semibold text-foreground">Escopo</th>
+                    <th className="font-brand text-left p-4 font-semibold text-foreground">Receita</th>
+                    <th className="font-brand text-left p-4 font-semibold text-foreground">Usuários</th>
+                    <th className="font-brand text-left p-4 font-semibold text-foreground">Limitação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {slide.competitors?.map((competitor, index) => (
+                    <tr key={index} className={`border-b border-border/50 hover:bg-accent/50 transition-colors ${
+                      competitor.name === 'Solo Energia' ? 'bg-gradient-to-r from-solo-orange/10 to-solo-yellow/10' : ''
+                    }`}>
+                      <td className="p-4">
+                        <div className="flex items-center space-x-2">
+                          <span className="font-brand font-semibold text-foreground">{competitor.name}</span>
+                          {competitor.name === 'Solo Energia' && <Star className="w-4 h-4 text-solo-orange" />}
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <Badge variant={competitor.global ? "default" : "secondary"} className="font-brand">
+                          {competitor.global ? 'Global' : 'Nacional'}
+                        </Badge>
+                      </td>
+                      <td className="p-4 font-brand text-foreground">{competitor.revenue}</td>
+                      <td className="p-4 font-brand text-foreground">{competitor.users}</td>
+                      <td className="p-4 font-brand text-muted-foreground text-sm">{competitor.advantage}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+
+      case 'financials':
+        return (
+          <div className="space-y-8">
+            <div className="text-center mb-12">
+              <h2 className="font-brand text-5xl font-bold text-foreground mb-4">{slide.title}</h2>
+              <p className="font-brand text-xl text-muted-foreground">{slide.subtitle}</p>
+            </div>
+            
+            <div className="grid gap-8 max-w-6xl mx-auto">
+              <div className="grid md:grid-cols-4 gap-6">
+                {slide.projections?.map((projection, index) => (
+                  <Card key={index} className="group hover:shadow-xl transition-all duration-300 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-full h-1 bg-gradient-to-r from-solo-orange to-solo-yellow" />
+                    <CardHeader className="text-center">
+                      <CardTitle className="font-brand text-2xl font-bold text-foreground">{projection.year}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="text-center">
+                        <div className="font-brand text-2xl font-bold text-solo-orange mb-1">{projection.revenue}</div>
+                        <p className="font-brand text-sm text-muted-foreground">Receita</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-brand text-lg font-semibold text-foreground mb-1">{projection.users}</div>
+                        <p className="font-brand text-sm text-muted-foreground">Clientes</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-brand text-lg font-semibold text-foreground mb-1">{projection.market}</div>
+                        <p className="font-brand text-sm text-muted-foreground">Market Share</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'funding':
+        return (
+          <div className="space-y-8">
+            <div className="text-center mb-12">
+              <h2 className="font-brand text-5xl font-bold text-foreground mb-4">{slide.title}</h2>
+              <p className="font-brand text-xl text-muted-foreground">{slide.subtitle}</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+              <Card className="hover:shadow-xl transition-all duration-300">
+                <CardHeader>
+                  <CardTitle className="font-brand text-2xl font-bold text-foreground flex items-center">
+                    <PieChart className="w-8 h-8 mr-3 text-solo-orange" />
+                    Uso do Investimento
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {slide.use?.map((use, index) => (
+                    <div key={index} className="flex justify-between items-center p-3 rounded-lg bg-accent/20">
+                      <span className="font-brand text-foreground">{use}</span>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+              
+              <Card className="hover:shadow-xl transition-all duration-300">
+                <CardHeader>
+                  <CardTitle className="font-brand text-2xl font-bold text-foreground flex items-center">
+                    <Rocket className="w-8 h-8 mr-3 text-solo-orange" />
+                    Marcos Importantes
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {slide.highlights?.map((highlight, index) => (
+                    <div key={index} className="flex items-center space-x-3">
+                      <CheckCircle className="w-5 h-5 text-solo-orange flex-shrink-0" />
+                      <span className="font-brand text-foreground">{highlight}</span>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        );
+
+      case 'closing':
+        return (
+          <div className="relative h-full flex items-center justify-center overflow-hidden">
+            {slide.backgroundImage && (
+              <div 
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${slide.backgroundImage})` }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/40" />
+              </div>
+            )}
+            
+            <div className="relative z-10 text-center space-y-8 max-w-4xl px-8">
+              <h2 className="font-brand text-6xl font-bold text-white mb-6">{slide.title}</h2>
+              <p className="font-brand text-2xl text-white/90 mb-8">{slide.subtitle}</p>
+              
+              <div className="grid md:grid-cols-2 gap-6 mb-12">
                 {slide.highlights?.map((highlight, index) => (
-                  <div 
-                    key={index} 
-                    className="flex items-center gap-3 p-4 rounded-lg bg-white/80 backdrop-blur-sm"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <CheckCircle className="w-6 h-6 text-solo-orange" />
-                    <span className="text-lg font-medium">{highlight}</span>
+                  <div key={index} className="flex items-center space-x-3 text-white">
+                    <CheckCircle className="w-6 h-6 text-solo-yellow flex-shrink-0" />
+                    <span className="font-brand text-lg">{highlight}</span>
                   </div>
                 ))}
               </div>
               
-              <p className="text-2xl text-muted-foreground mb-12">{slide.cta}</p>
-              
-              <Button 
-                size="xl" 
-                className="bg-gradient-to-r from-solo-orange to-solo-yellow hover:opacity-90 transform hover:scale-105 transition-all duration-300 shadow-2xl"
-              >
-                Falar com a Solo Energia
-                <ArrowRight className="ml-3 w-6 h-6" />
-              </Button>
+              <div className="space-y-6">
+                <p className="font-brand text-3xl text-white font-semibold">{slide.cta}</p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button size="xl" className="bg-gradient-to-r from-solo-orange to-solo-yellow text-white font-brand font-semibold px-8 py-4 rounded-full">
+                    Investir na Solo
+                  </Button>
+                  <Button size="xl" variant="outline" className="border-white text-white hover:bg-white hover:text-black font-brand px-8 py-4 rounded-full">
+                    Saber Mais
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         );
 
       default:
-        return <div>Slide não encontrado</div>;
+        return <div className="font-brand text-foreground">Slide não encontrado</div>;
     }
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col font-sans">
+    <div className="w-full h-screen bg-background text-foreground overflow-hidden relative">
       {/* Slide Content */}
-      <div className="flex-1 relative">
-        {renderSlide()}
+      <div className="h-full p-8 flex items-center justify-center">
+        <div className="w-full max-w-7xl mx-auto h-full flex items-center">
+          {renderSlide()}
+        </div>
       </div>
 
       {/* Navigation */}
-      <div className="border-t bg-card/80 backdrop-blur-sm p-6">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button 
-              variant="outline" 
-              onClick={prevSlide}
-              disabled={currentSlide === 0}
-              className="flex items-center gap-2 hover:border-solo-orange hover:text-solo-orange transition-colors"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              Anterior
-            </Button>
-            
-            <Button
-              variant={isAutoplay ? "default" : "outline"}
-              onClick={() => setIsAutoplay(!isAutoplay)}
-              className="text-sm"
-            >
-              {isAutoplay ? "Pausar" : "Auto"}
-            </Button>
-          </div>
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center space-x-6 bg-black/20 backdrop-blur-md rounded-full px-6 py-3">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={prevSlide}
+          className="text-white hover:bg-white/20 rounded-full"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </Button>
 
-          <div className="flex items-center gap-2">
-            {slides.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentSlide 
-                    ? 'bg-solo-orange scale-125' 
-                    : 'bg-muted hover:bg-muted-foreground'
-                }`}
-              />
-            ))}
-          </div>
-
-          <Button 
-            variant="outline" 
-            onClick={nextSlide}
-            disabled={currentSlide === slides.length - 1}
-            className="flex items-center gap-2 hover:border-solo-orange hover:text-solo-orange transition-colors"
-          >
-            Próximo
-            <ChevronRight className="w-4 h-4" />
-          </Button>
+        <div className="flex space-x-2">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentSlide 
+                  ? 'bg-gradient-to-r from-solo-orange to-solo-yellow scale-125' 
+                  : 'bg-white/40 hover:bg-white/60'
+              }`}
+            />
+          ))}
         </div>
 
-        <div className="text-center mt-4 text-sm text-muted-foreground">
-          <span className="font-medium">{currentSlide + 1}</span> de {slides.length} - {slide.title}
-        </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={nextSlide}
+          className="text-white hover:bg-white/20 rounded-full"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </Button>
+
+        <div className="w-px h-6 bg-white/20 mx-2" />
+
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsAutoplay(!isAutoplay)}
+          className="text-white hover:bg-white/20 rounded-full"
+        >
+          {isAutoplay ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+        </Button>
+      </div>
+
+      {/* Progress Bar */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-black/20">
+        <div 
+          className="h-full bg-gradient-to-r from-solo-orange to-solo-yellow transition-all duration-300"
+          style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
+        />
       </div>
     </div>
   );
-}
+};
+
+export default PitchDeck;
